@@ -1,0 +1,6 @@
+#Ignoring node modules files
+node_modules
+#Ignoring env file
+.env
+#Ignoring DS_Store MacOS files
+.DS_Store
