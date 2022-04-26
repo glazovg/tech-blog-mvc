@@ -13,7 +13,7 @@ router.post('/', async (req, res) => {
       req.session.username = newUser.username;
       req.session.loggedIn = true;
 
-      res.json(newUser);
+      res.status(200).json(newUser);  
     });
   } catch (err) {
     res.status(500).json(err);
@@ -45,7 +45,7 @@ router.post('/login', async (req, res) => {
       req.session.username = user.username;
       req.session.loggedIn = true;
 
-      res.json({ user, message: 'You are now logged in!' });
+      res.status(200).json({ user: user, message: 'You are now logged in!' });
     });
   } catch (err) {
     res.status(400).json({ message: 'No user account found!' });

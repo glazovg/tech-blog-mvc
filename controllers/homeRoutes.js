@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/post/:id', async (req, res) => {
+router.get('/post/:id', withAuth, async (req, res) => {
   try {
     const postData = await Post.findOne({
       where: { id: req.params.id },
@@ -35,49 +35,6 @@ router.get('/post/:id', async (req, res) => {
     }
   } catch (err) {
     res.status(500).json(err);
-  }
-});
-
-//Dashboard get routes
-router.get('/dashboard', withAuth, async (req, res) => {
-  try {
-    const postData = await Post.findAll({
-      where: { "userId": req.session.userId },
-      include: [User]
-    });
-    const posts = postData.map((post) => post.get({ plain: true }));
-    console.log(posts);
-    res.render('user-posts', {
-      layout: 'dashboard',
-      posts,
-    });
-  } catch (err) {
-    res.redirect('login');
-  }
-});
-
-router.get('/new', withAuth, (req, res) => {
-  res.render('new-post', {
-    layout: 'dashboard',
-  });
-});
-
-router.get('/edit/:id', withAuth, async (req, res) => {
-  try {
-    const postData = await Post.findByPk(req.params.id);
-
-    if (postData) {
-      const post = postData.get({ plain: true });
-      console.log(post);
-      res.render('edit-post', {
-        layout: 'dashboard',
-        post,
-      });
-    } else {
-      res.status(404).end();
-    }
-  } catch (err) {
-    res.redirect('login');
   }
 });
 
